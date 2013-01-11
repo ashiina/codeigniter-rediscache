@@ -41,8 +41,26 @@ class Rediscache {
 	 * @return bool
 	*/
 	public function set ($key, $value, $expire=43200) { 
+		if (!$this->_USE_CACHE) {
+			return false;
+		}
+
 		$cacheKey = $this->_get_cache_key($key);
-		$result = $this->CI->redis->set($cacheKey, serialize($value) );
+
+		// dont allow if resource
+		if (is_resource($value)) {
+			return false;
+		}
+
+		// try to serialize val
+		$serializedVal;
+		try {
+			$serializedVal = serialize($value);
+		} catch (Exception $e) {
+			return false;
+		}
+
+		$result = $this->CI->redis->set($cacheKey, $serializedVal );
 		$result = $this->CI->redis->command("EXPIRE", $cacheKey, $expire);
 		if ($result) {
 			return true;
@@ -97,9 +115,8 @@ class Rediscache {
 
 	// Format key into cache key
 	protected function _get_cache_key ($targetKey) {
-		return '__CACHE.'.$targetKey;
+		return "__CACHE.".$targetKey;
 	}
 
 }
 
-?>

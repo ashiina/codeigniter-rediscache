@@ -13,54 +13,37 @@ class Rediscache_test extends CI_Controller {
 		$this->load->library('rediscache');
 		$this->unit->use_strict(TRUE);
 
-		// variable
+		// string
 		$testVar = 'testvar';
+		$this->unit->run($this->rediscache->set('rc.key', $testVar, 10000), true, 'set string');
+		$this->unit->run($this->rediscache->get('rc.key'), $testVar, 'get string');
+		$this->unit->run($this->rediscache->del('rc.key'), true, 'del string');
 
 		// array
 		$testArr = array(
 			'hoge' => 'foo',
 			'fuga' => 'bar'
 		); 
+		$this->unit->run($this->rediscache->set('rc.key', $testArr, 10000), true, 'set array');
+		$this->unit->run($this->rediscache->get('rc.key'), $testArr, 'get array');
+		$this->unit->run($this->rediscache->del('rc.key'), true, 'del array');
 
 		// object
 		$testObj = new Testobj;
+		$this->unit->run($this->rediscache->set('rc.key', $testObj, 10000), true, 'set object');
+		$this->unit->run($this->rediscache->get('rc.key')->var, $testObj->var, 'get object');
+		$this->unit->run($this->rediscache->del('rc.key'), true, 'del object');
 
-		// function
+		// function (should be false)
 		$testFunc = function(){};
+		$this->unit->run($this->rediscache->set('rc.key', $testFunc, 10000), false, 'set function (should be false)');
+		$this->unit->run($this->rediscache->get('rc.key'), false, 'get function (should be false)');
 
-		// resource
+		// resource (should be false)
 		$testRes = curl_init();
-
-		// set string
-		$this->unit->run($this->rediscache->set('rediscache.test.key1', $testVar, 10000), true, 'set string');
-		// get string
-		$this->unit->run($this->rediscache->get('rediscache.test.key1'), $testVar, 'get string');
-		// del string
-		$this->unit->run($this->rediscache->del('rediscache.test.key1'), true, 'del string');
-
-		// set array
-		$this->unit->run($this->rediscache->set('rediscache.test.key1', $testArr, 10000), true, 'set array');
-		// get array
-		$this->unit->run($this->rediscache->get('rediscache.test.key1'), $testArr, 'get array');
-		// del array
-		$this->unit->run($this->rediscache->del('rediscache.test.key1'), true, 'del array');
-
-		// set object
-		$this->unit->run($this->rediscache->set('rediscache.test.key1', $testObj, 10000), true, 'set object');
-		// get object
-		$this->unit->run($this->rediscache->get('rediscache.test.key1')->var, $testObj->var, 'get object');
-		// del object
-		$this->unit->run($this->rediscache->del('rediscache.test.key1'), true, 'del object');
-
-		// set function (should be false)
-		$this->unit->run($this->rediscache->set('rediscache.test.key1', $testFunc, 10000), false, 'set function (should be false)');
-		// get function (should be false)
-		$this->unit->run($this->rediscache->get('rediscache.test.key1'), false, 'get function (should be false)');
-
-		// set resource (should be false)
-		$this->unit->run($this->rediscache->set('rediscache.test.key1', $testRes, 10000), false, 'set resource (should be false)');
-		// get resource (should be false)
-		$this->unit->run($this->rediscache->get('rediscache.test.key1'), false, 'get resource (should be false)');
+		$this->unit->run($this->rediscache->set('rc.key', $testRes, 10000), false, 'set resource (should be false)');
+		$this->unit->run($this->rediscache->get('rc.key'), false, 'get resource (should be false)');
+		curl_close($testRes);
 
 		echo $this->unit->report();
 

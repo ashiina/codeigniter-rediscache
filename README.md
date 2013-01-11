@@ -21,6 +21,7 @@ https://github.com/ashiina/codeigniter-redis
 ### Commands
 Set cache :
 You can set a cache simply of a value, with an expiration time.
+
 The types of values you can set for a cache are congruent to the 
 types of values allowed for the serialize() method.
 

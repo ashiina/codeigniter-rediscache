@@ -3,7 +3,7 @@ codeigniter-rediscache
 A CodeIgniter library for a simple cache system using redis.
 Please feel free to let me know (or just fork) if you find any bugs or improvements points.
 
-Thanks - ashiina (https://github.com/ashiina)
+Thanks, -ashiina (https://github.com/ashiina)
 
 Requirements
 -----------

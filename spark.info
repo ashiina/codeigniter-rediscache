@@ -1,0 +1,6 @@
+# Spark spec
+name: rediscache
+version: 1.0
+compatibility: 2.0.0
+dependencies: ["redis"]
+tags: ["nosql", "cache", "redis", "key-value store"]

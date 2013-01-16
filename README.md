@@ -3,6 +3,8 @@ codeigniter-rediscache
 A CodeIgniter library for a simple cache system using redis.
 Please feel free to let me know (or just fork) if you find any bugs or improvements points.
 
+Thanks, -ashiina (https://github.com/ashiina)
+
 Requirements
 -----------
 1. PHP 5.0 or more
@@ -21,6 +23,7 @@ https://github.com/ashiina/codeigniter-redis
 ### Commands
 Set cache :
 You can set a cache simply of a value, with an expiration time.
+
 The types of values you can set for a cache are congruent to the 
 types of values allowed for the serialize() method.
 Please refer to the official documentation (http://jp2.php.net/manual/ja/function.serialize.php)

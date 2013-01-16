@@ -45,8 +45,6 @@ class Rediscache {
 			return false;
 		}
 
-		$cacheKey = $this->_get_cache_key($key);
-
 		// dont allow if resource
 		if (is_resource($value)) {
 			return false;
@@ -59,6 +57,9 @@ class Rediscache {
 		} catch (Exception $e) {
 			return false;
 		}
+
+		// get key
+		$cacheKey = $this->_get_cache_key($key);
 
 		$result = $this->CI->redis->set($cacheKey, $serializedVal );
 		$result = $this->CI->redis->command("EXPIRE", $cacheKey, $expire);

@@ -28,6 +28,11 @@ class Rediscache {
 	protected $_USE_CACHE=true;
 
 	/*
+	 * Universal prefix for the cache keys 
+	 */
+	protected $_CACHE_KEY_PREFIX='__CACHE';
+
+	/*
 	 * Set cache
 	 * 
 	 * Uses redis to set a cache.
@@ -116,7 +121,7 @@ class Rediscache {
 
 	// Format key into cache key
 	protected function _get_cache_key ($targetKey) {
-		return "__CACHE.".$targetKey;
+		return implode('.', array($this->_CACHE_KEY_PREFIX, $targetKey));
 	}
 
 }

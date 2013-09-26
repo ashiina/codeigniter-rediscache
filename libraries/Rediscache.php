@@ -67,7 +67,13 @@ class Rediscache {
 		$cacheKey = $this->_get_cache_key($key);
 
 		$result = $this->CI->redis->set($cacheKey, $serializedVal );
-		$result = $this->CI->redis->command("EXPIRE", $cacheKey, $expire);
+		
+		//1104hrs (IST) 26th Sep 2013: No more failed tests
+		if ($expire != 'NO_EXPIRE')
+        	{
+            		$result = $this->CI->redis->command("EXPIRE {$cacheKey} {$expire}");
+        	}
+        	
 		if ($result) {
 			return true;
 		} else {

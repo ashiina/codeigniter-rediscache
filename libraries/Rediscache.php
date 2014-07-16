@@ -58,7 +58,7 @@ class Rediscache {
 		// try to serialize val
 		$serializedVal;
 		try {
-			$serializedVal = serialize(urlencode($value));
+			$serializedVal = urlencode(serialize($value));
 		} catch (Exception $e) {
 			return false;
 		}
@@ -93,7 +93,7 @@ class Rediscache {
 		$serializedResult = $this->CI->redis->get($cacheKey);
 
 		if ($serializedResult) {
-			return urldecode(unserialize($serializedResult));
+			return unserialize(urldecode($serializedResult));
 		} else {
 			return false;
 		}

@@ -17,6 +17,7 @@ class Rediscache_test extends CI_Controller {
 		$testVar = 'testvar';
 		$this->unit->run($this->rediscache->set('rc.key', $testVar, 10000), true, 'set string');
 		$this->unit->run($this->rediscache->get('rc.key'), $testVar, 'get string');
+		var_dump($this->rediscache->get('rc.key'));
 		$this->unit->run($this->rediscache->del('rc.key'), true, 'del string');
 
 		// array
@@ -27,6 +28,18 @@ class Rediscache_test extends CI_Controller {
 		$this->unit->run($this->rediscache->set('rc.key', $testArr, 10000), true, 'set array');
 		$this->unit->run($this->rediscache->get('rc.key'), $testArr, 'get array');
 		$this->unit->run($this->rediscache->del('rc.key'), true, 'del array');
+
+		// nested array with space
+		$testArr = array(
+			'hoge fuga' => 'foo bar test',
+			'hoge2' 	=> array(
+				'foo bar key 2' => 'foo bar value 2'
+			)
+		); 
+		$this->unit->run($this->rediscache->set('rc.key', $testArr, 10000), true, 'set nested array with space');
+		$this->unit->run($this->rediscache->get('rc.key'), $testArr, 'get nest array with space');
+		$this->unit->run($this->rediscache->del('rc.key'), true, 'del array');
+
 
 		// object
 		$testObj = new Testobj;

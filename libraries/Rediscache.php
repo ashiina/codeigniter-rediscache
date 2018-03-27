@@ -1,7 +1,7 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed'); 
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 /**
- * Rediscache 
+ * Rediscache
  *
  * A CodeIgniter library for a simple cache system using redis.
  *
@@ -10,7 +10,7 @@
  * @author              ashiina
  * @link                        https://github.com/ashiina/codeigniter-rediscache
  * @license         http://www.opensource.org/licenses/mit-license.html
- * 
+ *
  * Copyright (c) 2011 Ahmad Shiina and contributers
  */
 class Rediscache {
@@ -22,30 +22,30 @@ class Rediscache {
 	}
 
 	/*
-	 * Cache usage control : 
+	 * Cache usage control :
 	 * Set this to true to enable rediscache
 	 */
 	protected $_USE_CACHE=true;
 
 	/*
-	 * Universal prefix for the cache keys 
+	 * Universal prefix for the cache keys
 	 */
 	protected $_CACHE_KEY_PREFIX='__CACHE';
 
 	/*
 	 * Set cache
-	 * 
+	 *
 	 * Uses redis to set a cache.
 	 * Can cache any type that can be serialized. Refer to the PHP manual for what types can be serialized:
 	 * http://php.net/manual/en/function.serialize.php
-	 * The default expire is set to 43200 (12hours). 
-	 * 
+	 * The default expire is set to 43200 (12hours).
+	 *
 	 * @param key : string
 	 * @param value : mixed
 	 * @param expire : int
 	 * @return bool
 	*/
-	public function set ($key, $value, $expire=43200) { 
+	public function set ($key, $value, $expire=43200) {
 		if (!$this->_USE_CACHE) {
 			return false;
 		}
@@ -67,7 +67,7 @@ class Rediscache {
 		$cacheKey = $this->_get_cache_key($key);
 
 		$result = $this->CI->redis->set($cacheKey, $serializedVal );
-		$result = $this->CI->redis->command("EXPIRE", $cacheKey, $expire);
+		$result = $this->CI->redis->command("EXPIRE $cacheKey $expire");
 		if ($result) {
 			return true;
 		} else {
@@ -77,10 +77,10 @@ class Rediscache {
 
 	/*
 	 * Get cache
-	 * 
+	 *
 	 * Uses redis to get a cache with the designated key.
 	 * If the key does not exist, or if cache is disabled, it will return false.
-	 * 
+	 *
 	 * @param key : string
 	 * @return mixed
 	*/
@@ -101,11 +101,11 @@ class Rediscache {
 
 	/*
 	 * Delete cache
-	 * 
+	 *
 	 * Uses redis to delete a cache with the designated key.
 	 * It will return true if the cache is successfully deleted.
 	 * Otherwise it will return false.
-	 * 
+	 *
 	 * @param key : string
 	 * @return bool
 	*/
@@ -125,4 +125,3 @@ class Rediscache {
 	}
 
 }
-
